@@ -24,16 +24,41 @@ function calculateResults(e) {
     let x  = Math.pow(1 + calculatedInterest, calculatedPayments);
     // let monthly = ((principal * x * calculatedInterest) / (x - 1)).toFixed(2);
     let monthly = (principal * x * calculatedInterest) / (x - 1);
-
     
-
     if (isFinite(monthly)) {
         monthlyPayment.value = monthly.toFixed(2); 
         totalPayment.value = (monthly * calculatedPayments).toFixed(2);
         totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
     } else {
-        console.log('Please check your numbers');
+        showError('Please check your numbers');
     }
+
     e.preventDefault();
 
+}
+
+function showError(error) {
+    // create Element
+    let errorDiv = document.createElement('div');
+    
+    // add class
+    errorDiv.className = 'alert alert-danger';
+
+    // create Text and appent to div
+    errorDiv.appendChild(document.createTextNode(error));
+
+    // Insert into DOM
+    let card = document.querySelector('.card');
+    let heading = document.querySelector('.heading');
+
+    // Inser error above heading
+     card.insertBefore(errorDiv, heading);
+
+     // Clear error msg
+     setTimeout(clearError, 3000);
+}
+
+function clearError(params) {
+    document.querySelector('.alert').remove();
+    
 }
